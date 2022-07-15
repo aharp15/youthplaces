@@ -113,7 +113,13 @@ function animate(){
         enemy.update();
     })
     
-
+  for(var i =0; i< projectiles.length; i++){
+        for(var j = 0; j < enemies.length; j++)
+        if(projectiles[i].position.x - projectiles[i].radius >= enemies[j].position.x - enemies[j].radius  && projectiles[i].position.x + projectiles[i].radius <= enemies[j].position.x + enemies[j].radius &&
+        projectiles[i].position.y - projectiles[i].radius >= enemies[j].position.y - enemies[j].radius && projectiles[i].position.y - projectiles[i].radius <= enemies[j].position.y + enemies[j].radius){
+            enemies.splice(j,1);
+    }
+  }
 }
 
 animate();
