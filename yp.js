@@ -82,7 +82,6 @@ function spawnEnemies(){
             y: Math.sin(angle)
         }
         enemies.push(new Projectile({x: enemyX, y: enemyY}, enemyRadius, "blue", enemySpeed));
-        console.log("fuck");
     }, 500);
 }
 
