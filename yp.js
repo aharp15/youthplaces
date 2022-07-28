@@ -59,6 +59,9 @@ const playerRadius = 50;
 const player = new Sprite({x: playerX, y: playerY}, playerRadius, "blue");
 
 
+const hearts = [];
+
+healthBarX = 500;
 
 const projectiles = [];
 const enemies = [];
@@ -100,6 +103,9 @@ canvas.addEventListener('click', (e)=> {
     projectiles.push(new Projectile({x: playerX, y: playerY}, 10, "green", speed));
 }); 
 
+for(var i = 0; i < 10; i++){
+        hearts.push(new Sprite({x: healthBarX += 50, y: 50}, 30, "red"));
+    }
 function animate(){
 
     requestAnimationFrame(animate);
@@ -120,6 +126,24 @@ function animate(){
             projectiles.splice(i,1);
     }
   }
+    
+    
+for(var i = 0; i < enemies.length; i++){
+
+    if(enemies[i].position.x - enemies[i].radius >= player.position.x - player.radius && 
+        enemies[i].position.x + enemies[i].radius <= player.position.x + player.radius && 
+        enemies[i].position.y - enemies[i].radius >= player.position.y -  player.radius && 
+        enemies[i].position.y + enemies[i].radius <= player.position.y + player.radius ){
+            enemies[i].position.x = -1000;
+            enemies[i].position.y = -1000;
+            hearts.splice(i , 1);
+            
+            enemies.splice(i , 0);
+            console.log(hearts.length);
+        
+    
+    }
+}
 }
 
 animate();
