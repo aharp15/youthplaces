@@ -138,7 +138,7 @@ for(var i = 0; i < enemies.length; i++){
             enemies[i].position.y = -1000;
             hearts.splice(i , 1);
             
-            enemies.splice(i , 0);
+            enemies.splice(i , 1);
             console.log(hearts.length);
         
     
