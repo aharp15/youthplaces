@@ -1,4 +1,17 @@
-//Create a canvas
+<!DOCTYPE html>
+
+	<html>
+		<head>
+			<meta charset="UTF-8">
+			<title>HTML lesson 1- 9 LINES OF EVERY HTML PAGE</title>
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+			
+		</head>
+		
+		<body>
+		<canvas id="myCanvas"></canvas>
+            <script>
+                //Create a canvas
 const canvas = document.getElementById("myCanvas");
 canvas.height = innerHeight;
 canvas.width = innerWidth;
@@ -58,10 +71,10 @@ const playerRadius = 50;
 //What does instantiate mean??
 const player = new Sprite({x: playerX, y: playerY}, playerRadius, "blue");
 
-
 const hearts = [];
 
 healthBarX = 500;
+
 
 const projectiles = [];
 const enemies = [];
@@ -74,7 +87,7 @@ function spawnEnemies(){
     setInterval(()=>{
         const enemyX = Math.random() * canvas.width;
         const enemyY = Math.random() * canvas.height;
-        const enemyRadius = 30;
+        const enemyRadius = 40;
 
         const angle = Math.atan2(
             playerY - enemyY,
@@ -84,8 +97,8 @@ function spawnEnemies(){
             x: Math.cos(angle),
             y: Math.sin(angle)
         }
-        enemies.push(new Projectile({x: enemyX, y: enemyY}, enemyRadius, "blue", enemySpeed));
-    }, 500);
+        enemies.push(new Projectile({x: enemyX, y: enemyY}, enemyRadius, "green", enemySpeed));
+    }, 5000);
 }
 
 
@@ -100,51 +113,75 @@ canvas.addEventListener('click', (e)=> {
         y: Math.sin(angle)
     }
 
-    projectiles.push(new Projectile({x: playerX, y: playerY}, 10, "green", speed));
+    projectiles.push(new Projectile({x: playerX, y: playerY}, 20, "black", speed));
 }); 
 
-for(var i = 0; i < 10; i++){
+spawnEnemies();
+
+    for(var i = 0; i < 10; i++){
         hearts.push(new Sprite({x: healthBarX += 50, y: 50}, 30, "red"));
     }
+
 function animate(){
 
-    requestAnimationFrame(animate);
     context.clearRect(0,0, canvas.width,canvas.height);
     player.draw();
+
     projectiles.forEach(projectile => {
         projectile.update();
       });
     enemies.forEach((enemy) => {
         enemy.update();
-    })
+    });
+
+    hearts.forEach((heart) => {
+        heart.update();
+    });
     
   for(var i =0; i< projectiles.length; i++){
-        for(var j = 0; j < enemies.length; j++)
-        if(projectiles[i].position.x - projectiles[i].radius >= enemies[j].position.x - enemies[j].radius  && projectiles[i].position.x + projectiles[i].radius <= enemies[j].position.x + enemies[j].radius &&
-        projectiles[i].position.y - projectiles[i].radius >= enemies[j].position.y - enemies[j].radius && projectiles[i].position.y - projectiles[i].radius <= enemies[j].position.y + enemies[j].radius){
-            enemies.splice(j,1);
-            projectiles.splice(i,1);
+        for(var j = 0; j < enemies.length; j++){
+            if(projectiles[i].position.x - projectiles[i].radius >= enemies[j].position.x - enemies[j].radius  && 
+                projectiles[i].position.x + projectiles[i].radius <= enemies[j].position.x + enemies[j].radius &&
+                projectiles[i].position.y - projectiles[i].radius >= enemies[j].position.y - enemies[j].radius && 
+                projectiles[i].position.y - projectiles[i].radius <= enemies[j].position.y + enemies[j].radius){
+                enemies.splice(j,1);
+                projectiles.splice(i,1);
+            }
     }
   }
-    
-    
+
 for(var i = 0; i < enemies.length; i++){
 
     if(enemies[i].position.x - enemies[i].radius >= player.position.x - player.radius && 
         enemies[i].position.x + enemies[i].radius <= player.position.x + player.radius && 
         enemies[i].position.y - enemies[i].radius >= player.position.y -  player.radius && 
         enemies[i].position.y + enemies[i].radius <= player.position.y + player.radius ){
+            
+            //this takes the enemy off of the screen
             enemies[i].position.x = -1000;
             enemies[i].position.y = -1000;
-            hearts.splice(i , 1);
+            
+            
+            hearts.splice(0 , 1);
             
             enemies.splice(i , 1);
             console.log(hearts.length);
         
-    
+            if(hearts.length == 0){
+                alert("GAME OVER");
+
+            }
     }
 }
+
+    requestAnimationFrame(animate);
+
 }
 
 animate();
-spawnEnemies();
+
+            </script>
+		
+		</body>
+		
+	</html>
